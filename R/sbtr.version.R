@@ -2,7 +2,7 @@
 #'
 .onAttach <- function(libname, pkgname)
 {
-    packageStartupMessage("sbtmod version: 1.6
+    packageStartupMessage("sbtr version: 1.61
 Compile date: 2019-06-28
 ")
 }

@@ -23,7 +23,7 @@ package: tarball install
 
 tarball: ../$(PKG_NAME)_$(PKG_VERSION).tar.gz
 ../$(PKG_NAME)_$(PKG_VERSION).tar.gz: $(PKG_FILES)
-	$(CD) ../ && R CMD build r_sbt
+	$(CD) ../ && R CMD build sbtr
 
 install: ../$(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R CMD INSTALL ../$(PKG_NAME)_$(PKG_VERSION).tar.gz
