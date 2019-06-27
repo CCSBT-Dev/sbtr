@@ -10,4 +10,3 @@ plot_ASP_projection(data.objects, lev.file = "base.lev",
 \description{
 data.objects is the collection of lab.rep files
 }
-

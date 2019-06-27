@@ -10,4 +10,3 @@ plot_Indonesian_selectivity(xx, year.list = c(1952, seq(1994, 2010, 2)),
 \description{
 Plot Indonesian selectivity.
 }
-

@@ -14,4 +14,3 @@ September 2009. Modified 24 June 2014 Trevor A Branch To split out
 by different values of M10 instead of steepness.  Plot the
 likelihoods by M10 values, using Paige's code and idea.
 }
-

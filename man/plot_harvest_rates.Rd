@@ -20,4 +20,3 @@ Boxplots harvest rates by age ranges
 \author{
 Ana Parma, Darcy Webber
 }
-

@@ -17,4 +17,3 @@ plot_recruitment(data.objects, lev.file = "base.lev", scenario_name,
 \description{
 Plot of recruitment
 }
-

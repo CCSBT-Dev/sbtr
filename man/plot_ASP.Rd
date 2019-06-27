@@ -10,4 +10,3 @@ plot_ASP(data.objects, lev.file = "base.lev", a1 = 2, a2 = 15,
 \description{
 data.objects is the collection of lab.rep files
 }
-

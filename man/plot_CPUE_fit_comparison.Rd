@@ -6,4 +6,6 @@
 \usage{
 plot_CPUE_fit_comparison(data_objects, lev_files, scenario_names)
 }
-
+\description{
+Plot and compare fits to CPUE
+}

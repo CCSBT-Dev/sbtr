@@ -9,4 +9,3 @@ plot_compare_plus_groups(compare.objects, ylim = c(0, 1), label)
 \description{
 Compare a variety of different model runs in terms of model numbers at age, Indonesian selectivity and natural mortality by age schedules.
 }
-

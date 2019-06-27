@@ -6,7 +6,9 @@
 \usage{
 plot_lev(file, factor = 2.3, title = NULL, drop_if_one_level = TRUE)
 }
+\description{
+Plot lev
+}
 \author{
 Jim Ianelli
 }
-

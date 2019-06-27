@@ -4,7 +4,8 @@
 \alias{plot_Australian_age_fits}
 \title{Plot of model fit to the observed Australian age-frequencies by year.}
 \usage{
-plot_Australian_age_fits(labrep.file = "sbtmod_lab.rep", case_label = "")
+plot_Australian_age_fits(labrep.file = "sbtmod_lab.rep",
+  case_label = "")
 }
 \arguments{
 \item{labrep.file}{name of the input file}
@@ -17,4 +18,3 @@ Fit of the model sbtmodxx.tpl to the data for southern bluefin tuna. Fits of the
 \author{
 Darcy Webber
 }
-

@@ -14,4 +14,3 @@ plot_SSB_compare(data_objects, lev_files, scenario_names, sample = TRUE)
 \description{
 SSB by year comparison
 }
-

@@ -18,4 +18,3 @@ Goes to the specified directory and finds all the _lab.rep files. Loads them one
 \examples{
 data.example.sqrt <- get_all_files(directory = "arc/c1s1l1sqrt/")
 }
-

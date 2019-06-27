@@ -10,4 +10,3 @@ plot_length_resid_LL(labrep.file = "sbtmod_lab.rep", case_label = "c1",
 \description{
 Length-frequency residuals
 }
-

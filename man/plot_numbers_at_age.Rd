@@ -9,4 +9,3 @@ plot_numbers_at_age(xx, min.age = 8, plot.years = c(1931, 2008))
 \description{
 Plot of numbers at age.
 }
-

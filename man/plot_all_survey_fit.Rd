@@ -10,4 +10,3 @@ plot_all_survey_fit(data.object, lab.cex = 1.1,
 \description{
 Plots fits of the CCSBT model sbtmod22.tpl to the survey and index data: Aerial survey, troll survey, commercial spotter index, and CPUE index. Produces a four-panel plot with data and model fits to the data. 25 June 2009.
 }
-

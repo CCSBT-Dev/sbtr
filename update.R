@@ -10,7 +10,7 @@ DESCRIPTION[3] <- paste("Date:", DATE)
 writeLines(DESCRIPTION, "DESCRIPTION")
 
 # Write pkg.version()
-filename <- "R/r_sbt.version.R"
+filename <- "R/sbtmod.version.R"
 cat("#' Function to return version number\n", file = filename)
 cat("#'\n", file = filename, append = TRUE)
 cat(".onAttach <- function(libname, pkgname)\n", file = filename, append = TRUE)

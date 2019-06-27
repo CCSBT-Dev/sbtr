@@ -23,4 +23,3 @@ pdf("figs/AussieAgeFts.pdf", width = 6, height = 11.5)
 plot_aussie_age_fits(labrep.file = "sbtmod_lab.rep", case_label = "c1")
 dev.off()
 }
-

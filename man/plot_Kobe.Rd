@@ -13,4 +13,3 @@ Ana Parma, Bali 2011
 \author{
 Ana Parma, Darcy Webber
 }
-

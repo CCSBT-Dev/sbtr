@@ -21,4 +21,3 @@ LikeM4const  <- likelihood.table(data.objects = data.M4constrained)
 LikeM4unconst <- likelihood.table(data.objects = data.M4unconst)
 LikeMpower <- likelihood.table(data.objects = data.Mpower)
 }
-

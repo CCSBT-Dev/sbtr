@@ -15,4 +15,3 @@ Plot recruitment and SSB
 \author{
 Ana Parma, Darcy Webber
 }
-

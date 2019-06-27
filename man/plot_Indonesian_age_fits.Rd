@@ -12,4 +12,3 @@ a plot
 \description{
 Fit of the model sbtmodxx.tpl to the data for southern bluefin tuna.
 }
-

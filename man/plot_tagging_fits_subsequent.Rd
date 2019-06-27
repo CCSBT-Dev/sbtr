@@ -12,4 +12,3 @@ outputs from a _lab.rep file, assuming that the naming convention in the file ha
 outputs separated by $name comments so that it can be easily parsed by readList() function of Jon Schnute 
 RUN this by typing source("Tagging fits subsequent.r"), expects subdirectory figs
 }
-

@@ -9,4 +9,3 @@ table_likelihood(data.objects)
 \description{
 Table of the likelihood components for a specified set of _lab.rep files
 }
-

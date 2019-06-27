@@ -15,4 +15,3 @@ pdf("figs/LengthsLL1.pdf", width = 8, height = 11.5)
 LengthsLL1(labrep.file = "sbtmod_lab.rep", case_label = "c1")
 dev.off()
 }
-

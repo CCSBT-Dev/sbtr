@@ -29,9 +29,8 @@ install: ../$(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R CMD INSTALL ../$(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 DESCRIPTION NAMESPACE: $(R_FILES)
-	$(CP) src/update.R .
 	Rscript update.R
-	$(RM) update.R
+
 clean:
 	$(RM) ../$(PKG_NAME)_*.tar.gz
 	$(RM) man/

@@ -14,4 +14,3 @@ pdf("figs/Tagfits combine taggers.pdf", width = 6, height = 8)
 plot_tagging_fits(data.object = x[[1]], case_label = "example")
 dev.off()
 }
-

@@ -16,4 +16,3 @@ pdf("figs/Tagfits pooled.pdf", width = 3, height = 8)
 tagging.fits.pooled(data.object = x[[1]], ages = 2:8, years = 1992:1997, case_label="c1")
 dev.off()
 }
-

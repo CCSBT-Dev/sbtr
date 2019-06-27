@@ -15,4 +15,3 @@ Plot SR
 \author{
 Ana Parma, Darcy Webber
 }
-

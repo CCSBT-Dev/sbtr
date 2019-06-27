@@ -10,4 +10,3 @@ plot_tagging_fits_pooled_compare(compare.objects, case.label, ages = 2:8,
 \description{
 Assumes that the _lab.rep files have been read in using code like x <- readList(file="example_lab.rep") and that compare.objects is a list.
 }
-

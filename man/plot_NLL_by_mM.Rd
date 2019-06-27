@@ -9,4 +9,3 @@ plot_NLL_by_mM(NLLtable, caption)
 \description{
 Plot the likelihoods by M1 values, using Paige Evesons code and idea. Plots the likelihoods for different likelihood components and the total split out by different values of M10.
 }
-

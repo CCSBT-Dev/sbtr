@@ -10,4 +10,3 @@ plot_tagging_fits_same_age(data.object, ages = 1:8, years = 1991:1997,
 \description{
 Plots the fits to the pooled tagging data for sbtmod22.tpl outputs from a _lab.rep file, assuming that the naming convention in the file has sections of outputs separated by $name comments so that it can be easily parsed by readList() function of Jon Schnute
 }
-

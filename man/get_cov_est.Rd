@@ -26,4 +26,3 @@ grid.cov.est <- get_grid_cov_est(directory = "arc/basesqrt")
 \author{
 Jim Ianelli, Darcy Webber,  Ana Parma
 }
-

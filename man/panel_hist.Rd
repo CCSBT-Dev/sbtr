@@ -12,4 +12,3 @@ Plot shaded plots. Put histograms on the diagonal.
 \author{
 Jim Ianelli.
 }
-

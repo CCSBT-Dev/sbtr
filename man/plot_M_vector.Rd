@@ -9,4 +9,3 @@ plot_M_vector(xx)
 \description{
 M vector plotting.
 }
-

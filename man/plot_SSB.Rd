@@ -15,7 +15,4 @@ plot_SSB(data.objects, lev.file = "base.lev", sample = TRUE)
 }
 \description{
 Plot of spawning stock biomass (SSB).
-
-Boxplots Harvest rates by age ranges
 }
-

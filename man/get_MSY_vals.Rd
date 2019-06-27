@@ -9,4 +9,3 @@ get_MSY_vals(data.objects, label)
 \description{
 Get the MSY results from each cell of the grid to see what the distribution of values is. Trevor A. Branch, started 5 September 2009, Busan, South Korea.
 }
-

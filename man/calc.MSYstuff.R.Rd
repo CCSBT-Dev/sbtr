@@ -26,4 +26,3 @@ MSY.stats <- calc.MSYstuff.R(base2013)
 \author{
 Ana Parma
 }
-
