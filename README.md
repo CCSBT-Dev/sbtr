@@ -1,10 +1,13 @@
 # sbtr
 
+# Installation
+
+Installation of the package can be done from within R using
+
     # Install package
     install.packages("devtools")
-    devtools::install_github("quantifish/TagGrowth")
+    devtools::install_github("CCSBT/sbtr")
 
     # Load package
-    library(TagGrowth)
-    
-    
+    library(sbtr)
+ 
