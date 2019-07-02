@@ -1,14 +1,11 @@
 # sbtr
 
-The package sbtr is an R package for manipulating and plotting Southern bluefin tuna (SBT) model outputs.
+The `sbtr` repository is an R package for manipulating and plotting Southern bluefin tuna (SBT) model outputs.
 
-## Installing sbtmod
 
-The `sbtr` package can be built and installed using:
+## Installing sbtr
 
-    make
-
-from within the `sbtr/` directory (or similar depending on your operating system). Alternatively, installation of the package can be done from within R using
+Installation of the `sbtr` package can be done from within R using:
 
     # Install package
     install.packages("devtools")
@@ -16,11 +13,17 @@ from within the `sbtr/` directory (or similar depending on your operating system
 
     # Load package
     library(sbtr)
- 
+
+Alternatively, the package can be cloned to your computer, then built and installed using:
+
+    git clone https://github.com/CCSBT/sbtr
+    cd sbtr
+    make
+
 
 ## Using sbtr
 
-Once installed, the sbtmod package can be called in R using `library(sbtr)`.
+Once installed, the sbtr package can be called in R using `library(sbtr)`.
 
 All figures produced during the 23-26 July 2013 meeting in Portland, Maine, are contained in the file `2013_07 Portland meeting scripts.r`. Typically how the code is organized is with a directory containing all the .r code, and subdirectories `\figs` where the .pdf figures are saved, `\levfiles` containing the .lev files, `\gridfiles` containing the .grid files, `\tables` where the .csv outputs are saves. One final directory, the `\arc` directory, contains a subdirectory for each set of model evaluations, including the all-important lab.rep files, e.g. `\arc\base2010sqrtns\base2010sqrtns_h1m1M1O2C2a1_lab.rep`.     
 
@@ -32,7 +35,7 @@ The word file in the R directory provides further details.
 
 ### Examples
 
-Examples input files are provided in `arc/example_lab.rep` and `levfiles/example.lev`. The `_lab.rep` input file can be read into R using:
+Example input files are provided in `arc/example_lab.rep` and `levfiles/example.lev`. The `_lab.rep` input file can be read into R using:
 
     data.example <- get.all.files("arc/example_lab.rep")
 
@@ -51,9 +54,9 @@ Alternatively, one can plot `.lev` files using:
     Plot.lev("levfiles/example.lev")
     dev.off()
 
-## Adding R functions to the rsbt package
+## Adding R functions to the sbtr package
 
-The sbtmod source code is located in the directory `sbtmod/R/`. Additional R functions can be added to the package by placing them in the `/R/` directory. Generally a single R function should be included in a file with the naming convension `function_name.R`. For a function to be included in the package build a roxygen header must be added above each new R function. This header and function should be formatted as follows:
+The sbtr source code is located in the directory `sbtr/R/`. Additional R functions can be added to the package by placing them in the `R/` directory. Generally a single R function should be included in a file with the naming convension `function_name.R`. For a function to be included in the package a roxygen header must be added above each new R function. This header and function should be formatted as follows:
 
     #' Function title
     #' 
@@ -76,8 +79,7 @@ The package can be compiled using the `Makefile` by simply typing `make`. This b
 
 ## Script for covariance function
 
-To evaluate the within-cell variabilty in addition to the structural 
-accross-the-grid uncertainty
+To evaluate the within-cell variabilty in addition to the structural accross-the-grid uncertainty.
 
 ### Preliminaries: 
 May need to edit main.tpl so that -est in call to sbtmod is removed
@@ -91,27 +93,23 @@ E.g., within directory OM run: ` main base2013 sqrt`
 
   Below are the scripts that evaluate these results further
 
-=====Required packages==============            
-`install.packages("PBSmodelling")  `
-`library(PBSmodelling)      `
-`library(rsbt)          `
+    install.packages("PBSmodelling")
+    library(PBSmodelling)
+    library(sbtr)
 
-Edit this to your needs...
-`setwd("/Users/jim/_mymods/sbtmod/runs")`
+    # Edit this to your needs...
+    setwd("/Users/jim/_mymods/sbtmod/runs")
 
- These two lines take time...1st reads in all results, second reads in and computes
- covariances
-`   labrep <- get.all.files("arc/base2013sqrt")`      
-`   covrep <- get.cov.est()`      
- To store your R environment (and avoid loading ASCII each time)      
-`   save.image(file="My.RData")`      
- if your data had been stored in R:            
-`load("My.RData")`
+    # These two lines take time...1st reads in all results, second reads in and computes covariances
+    labrep <- get.all.files("arc/base2013sqrt")
+    covrep <- get.cov.est()
+    
+    # If your data had been stored in R:            
+    load("My.RData")
 
-Use covariance to generate B10 and F simulations of posterior over each point in grid
- Also includes terminal year numbers at age estimates and covariances..
-`sims  <- sim.F.B10(covrep,lev.file="../OM/arc/grids/base2013sqrt.lev")`
-`lev.file="../OM/arc/grids/base2013sqrt.lev"`
+    # Use covariance to generate B10 and F simulations of posterior over each point in grid. Also includes terminal year numbers at age estimates and covariances.
+    sims  <- sim.F.B10(covrep,lev.file="../OM/arc/grids/base2013sqrt.lev")
+    lev.file="../OM/arc/grids/base2013sqrt.lev"
 
------Plot comparisons of within cell variability vs grid---------------    
-`MSYcov.stats  <- Plot.MSY.cov(labrep,lev.file,sims,xlim=c(0,2.3))`
+    # Plot comparisons of within cell variability vs grid
+    MSYcov.stats  <- Plot.MSY.cov(labrep,lev.file,sims,xlim=c(0,2.3))
