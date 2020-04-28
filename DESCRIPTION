@@ -1,20 +1,32 @@
 Package: sbtr
-Version: 1.61
-Date: 2019-06-28
+Version: 1.62
+Date: 2019-07-03
 Author: Darcy Webber <darcy@quantifish.co.nz>
 Maintainer: Darcy Webber <darcy@quantifish.co.nz>
 Depends:
-    PBSmodelling,
-    ggplot2,
-    gplots,
-    reshape2,
+    R (>= 2.10),
     dplyr,
-    tidyr,
+    ggplot2
+Imports:
+    PBSmodelling,
+    reshape2,
+    stringr,
+    readr,
+    gtable,
+    gplots,
     grid,
     gridExtra,
     ggrepel
+Suggests: 
+    knitr,
+    devtools,
+    rmarkdown,
+    roxygen2,
+    testthat,
+    usethis,
+    viridis
 Description: A package containing functions and plots to investigate the output
     of the Southern bluefin tuna (SBT) ADMB model.
 License: GPL-2
-LazyData: TRUE
+LazyData: false
 RoxygenNote: 6.1.1
