@@ -1,3 +1,60 @@
+plot_selectivity <- function(data_objects, lev_files, scenario_names) {
+
+  labels <- c("Japan", "Australia", "3", "4", "Indonesia", "6")
+  sel_df <- NULL
+
+  for (j in 1:length(data_objects)) {
+    dobj <- data_objects[[j]]
+    xx <- dobj[[1]]
+    years <- xx$yrs.cpue[1]:xx$yrs.cpue[2]
+    nyears <- length(years)
+    nobjects <- length(dobj)
+    npar <- nchar(xx$scenario_number)
+    scenario <- vector(length = nobjects)
+    scen_df <- NULL
+
+    for (i in 1:nobjects) {
+      xx <- dobj[[i]]
+      scenario[i] = xx$scenario_number
+      yy <- data.frame(run = scenario_names[j], scenario_number = xx$scenario_number, xx$sel)
+      scen_df <- rbind(scen_df, yy)
+    }
+
+    # lev <- read.table(file = lev_files[j], colClasses = "numeric", sep = " ")
+    # nlevs <- nrow(lev)
+    # lev.scens <- vector(length = nobjects)
+    # for (i in 1:nlevs) {
+    #   lev.scens[i] <- as.numeric(paste(lev[i, 1:npar], sep = "", collapse = ""))
+    # }
+    # resamps <- match(lev.scens, scenario)
+    # d <- data.frame(pCPUE[resamps, ])
+
+    sel_df <- rbind(sel_df, scen_df)
+  }
+
+  library(ggridges)
+
+  df <- sel_df %>%
+    rename(fishery = X1, year = X2) %>%
+    pivot_longer(cols = starts_with("X"), names_to = "age", values_to = "y") %>%
+    mutate(age = as.numeric(gsub("X", "", age))) %>%
+    group_by(run, fishery, year, age) %>%
+    summarise(y_min = min(y), y_max = max(y)) %>%
+    ungroup() %>%
+    pivot_longer(cols = starts_with("y_"), names_to = "ystat", values_to = "y") %>%
+    unite("group", run, year, ystat, remove = FALSE) %>%
+    mutate(year = factor(year)) %>%
+    data.frame()
+
+  ggplot(data = df %>% filter(fishery == 1, year %in% 2000:2018), aes(x = age, y = year, height = y)) +
+    # geom_density_ridges(aes(fill = run, colour = run), stat = "identity", alpha = 0.5) +
+    # geom_density_ridges(aes(colour = run, group = group), stat = "identity", alpha = 0.5, fill = NA) +
+    geom_density_ridges(aes(colour = run, group = group), stat = "identity", alpha = 0.5, fill = NA) +
+    # facet_wrap(run ~ .) +
+    labs(x = "Age", y = NULL)
+
+}
+
 #' Plot and compare fits to CPUE
 #'
 #' @param data_objects data objects
@@ -56,13 +113,13 @@ plot_CPUE_fit_comparison <- function(data_objects, lev_files, scenario_names) {
   }
 
   # browser()
-  # unique((dobs %>% filter(variable == "2018"))$value)
 
   ggplot(dpred, aes(x = variable, y = value, colour = Scenario, fill = Scenario, group = Scenario)) +
     stat_summary(fun.min = function(x) quantile(x, 0.05), fun.max = function(x) quantile(x, 0.95), geom = "ribbon", alpha = 0.25, colour = NA) +
     stat_summary(fun = function(x) quantile(x, 0.5), geom = "line", lwd = 1) +
     geom_point(data = dobs, aes(x = variable, y = value), colour = 'black') +
     labs(x = "Year", y = "CPUE", colour = "Scenario", fill = "Scenario") +
+    scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
     theme_bw() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 }
