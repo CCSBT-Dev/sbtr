@@ -4,8 +4,7 @@
 \alias{plot_ASP}
 \title{Plot ASP}
 \usage{
-plot_ASP(data.objects, lev.file = "base.lev", a1 = 2, a2 = 15,
-  plot.yr1 = 1955)
+plot_ASP(data.objects, lev.file = "base.lev", a1 = 2, a2 = 15, plot.yr1 = 1955)
 }
 \description{
 data.objects is the collection of lab.rep files

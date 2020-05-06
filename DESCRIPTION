@@ -29,4 +29,4 @@ Description: A package containing functions and plots to investigate the output
     of the Southern bluefin tuna (SBT) ADMB model.
 License: GPL-2
 LazyData: false
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0

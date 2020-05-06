@@ -4,8 +4,12 @@
 \alias{plot_harvest_rates}
 \title{Boxplots harvest rates by age ranges}
 \usage{
-plot_harvest_rates(data.objects, lev.file = "base.lev", sample = TRUE,
-  hline = 0.1)
+plot_harvest_rates(
+  data.objects,
+  lev.file = "base.lev",
+  sample = TRUE,
+  hline = 0.1
+)
 }
 \arguments{
 \item{data.objects}{a list of the _lab.rep files from all grid cells}

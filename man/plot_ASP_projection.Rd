@@ -4,8 +4,12 @@
 \alias{plot_ASP_projection}
 \title{Plot ASP projections}
 \usage{
-plot_ASP_projection(data.objects, lev.file = "base.lev",
-  s3filenames = ".s10", plot.yr1 = 1955)
+plot_ASP_projection(
+  data.objects,
+  lev.file = "base.lev",
+  s3filenames = ".s10",
+  plot.yr1 = 1955
+)
 }
 \description{
 data.objects is the collection of lab.rep files

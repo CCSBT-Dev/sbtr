@@ -4,8 +4,11 @@
 \alias{plot_Indonesian_selectivity}
 \title{Plot Indonesian selectivity.}
 \usage{
-plot_Indonesian_selectivity(xx, year.list = c(1952, seq(1994, 2010, 2)),
-  do.legend = F)
+plot_Indonesian_selectivity(
+  xx,
+  year.list = c(1952, seq(1994, 2010, 2)),
+  do.legend = F
+)
 }
 \description{
 Plot Indonesian selectivity.

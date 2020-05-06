@@ -55,6 +55,7 @@ plot_selectivity <- function(data_objects, lev_files, scenario_names) {
 
 }
 
+
 #' Plot and compare fits to CPUE
 #'
 #' @param data_objects data objects
@@ -67,7 +68,7 @@ plot_selectivity <- function(data_objects, lev_files, scenario_names) {
 #' @import dplyr
 #' @export
 #'
-plot_CPUE_fit_comparison <- function(data_objects, lev_files, scenario_names) {
+plot_CPUE_fit_comparison <- function(data_objects, lev_files, scenario_names, year_label = NULL) {
   dpred <- NULL
   dobs <- NULL
   for (j in 1:length(data_objects)) {
@@ -83,7 +84,7 @@ plot_CPUE_fit_comparison <- function(data_objects, lev_files, scenario_names) {
 
     for (i in 1:nobjects) {
       xx <- dobj[[i]]
-      scenario[i] = xx$scenario_number
+      scenario[i] <- xx$scenario_number
       oCPUE[i, ] <- xx$cpue
       pCPUE[i, ] <- xx$cpue.pred
     }
@@ -112,65 +113,152 @@ plot_CPUE_fit_comparison <- function(data_objects, lev_files, scenario_names) {
     dobs <- rbind(dobs, d)
   }
 
-  # browser()
-
   ggplot(dpred, aes(x = variable, y = value, colour = Scenario, fill = Scenario, group = Scenario)) +
     stat_summary(fun.min = function(x) quantile(x, 0.05), fun.max = function(x) quantile(x, 0.95), geom = "ribbon", alpha = 0.25, colour = NA) +
     stat_summary(fun = function(x) quantile(x, 0.5), geom = "line", lwd = 1) +
     geom_point(data = dobs, aes(x = variable, y = value), colour = 'black') +
-    labs(x = "Year", y = "CPUE", colour = "Scenario", fill = "Scenario") +
+    labs(x = year_label, y = "CPUE index", colour = "Scenario", fill = "Scenario") +
     scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
     theme_bw() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 }
 
 
-#' @title Plot fits to CPUE
-#' @description
-#' Plots fits of the CCSBT model sbtmod22.tpl to the survey and index data: Aerial survey, troll survey, commercial spotter index, and CPUE index. Produces a four-panel plot with data and model fits to the data. 25 June 2009. THIS IS JIM
-#' @export
+#' Plot fits to aerial surveys
 #'
-plot_CPUE_index_fit <- function(data.object,lab.cex=lab.cex)
-{
-  x <- data.object
-  years <- x$yrs.cpue[1]:x$yrs.cpue[2]
-  cpue.obs <- x$cpue
-  cpue.pred <- x$cpue.pred
-
-  ylim <- c(0,1.1*max(c(cpue.obs,cpue.pred)))
-  plot(years, cpue.obs, type="p",cex=1.3,pch=19,col="black", ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
-  par(new=T)
-  plot(years, cpue.pred, type="l",lwd=2,col="blue",ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
-
-  #mtext(side=1,line=2.8,"Year",cex=lab.cex)
-  mtext(side=2,line=3,"CPUE index",cex=lab.cex)
-}
-#fit.CPUE.index(labrep.file="sbtmod22_lab.rep")
-
-
-#' @title Plot fits to aerial surveys
-#' @description
 #' Plots fits of the CCSBT model sbtmod22.tpl to the survey and index data: Aerial survey, troll survey, commercial spotter index, and CPUE index. Produces a four-panel plot with data and model fits to the data. 25 June 2009.
+#'
+#' @param data_objects data objects
+#' @param lev_files the lev files
+#' @param scenario_names some names
+#' @return a ggplot object
+#' @importFrom reshape2 melt
+#' @importFrom stats quantile
+#' @import ggplot2
+#' @import dplyr
 #' @export
 #'
-plot_aerial_survey_fit <- function(data.object,lab.cex=1.1)
-{
-  x <- data.object
-  years <- x$Aerial.Surv[,1]
-  cpue.obs <- x$Aerial.Surv[,2]
-  cpue.pred <- x$Aerial.Surv[,3]
-  #cpue.pred[cpue.obs < 0] <- NA     #missing years are indicated in the data by -999
-  cpue.obs[cpue.obs < 0] <- NA     #missing years are indicated in the data by -999
+plot_aerial_survey_fit_comparison <- function(data_objects, lev_files, scenario_names, year_label = NULL) {
+  dpred <- NULL
+  dobs <- NULL
+  for (j in 1:length(data_objects)) {
+    dobj <- data_objects[[j]]
+    xx <- dobj[[1]]
+    years <- xx$Aerial.Surv[,1]
+    nyears <- length(years)
+    nobjects <- length(dobj)
+    npar <- nchar(xx$scenario_number)
+    scenario <- vector(length = nobjects)
+    oCPUE <- matrix(NA, nobjects, nyears)
+    pCPUE <- matrix(NA, nobjects, nyears)
 
-  ylim <- c(0,1.1*max(c(cpue.obs,cpue.pred),na.rm=T))
-  plot(years, cpue.obs, type="p",cex=1.3,pch=19,col="black", ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
-  par(new=T)
-  plot(years, cpue.pred, type="l",lwd=2,col="blue",ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
+    # years <- x$Aerial.Surv[,1]
+    # cpue.obs <- x$Aerial.Surv[,2]
+    # cpue.pred <- x$Aerial.Surv[,3]
+    # #cpue.pred[cpue.obs < 0] <- NA     #missing years are indicated in the data by -999
+    # cpue.obs[cpue.obs < 0] <- NA     #missing years are indicated in the data by -999
 
-  #mtext(side=1,line=2.8,"Year",cex=lab.cex)
-  mtext(side=2,line=3,"Aerial survey index",cex=lab.cex)
+    for (i in 1:nobjects) {
+      xx <- dobj[[i]]
+      scenario[i] <- xx$scenario_number
+      oCPUE[i, ] <- xx$Aerial.Surv[,2]
+      pCPUE[i, ] <- xx$Aerial.Surv[,3]
+    }
+
+    lev <- read.table(file = lev_files[j], colClasses = "numeric", sep = " ")
+    nlevs <- nrow(lev)
+    lev.scens <- vector(length = nobjects)
+    for (i in 1:nlevs) {
+      lev.scens[i] <- as.numeric(paste(lev[i, 1:npar], sep = "", collapse = ""))
+    }
+    resamps <- match(lev.scens, scenario)
+    # result <- list(scenario = lev.scens, years = years, pCPUE = pCPUE[resamps, ], oCPUE = oCPUE[resamps, ])
+
+    # d <- data.frame(result$pCPUE)
+    d <- data.frame(pCPUE[resamps, ])
+    names(d) <- years
+    d <- melt(d) %>%
+      mutate(variable = as.character(variable), Scenario = scenario_names[j])
+    dpred <- rbind(dpred, d)
+
+    # d <- data.frame(result$oCPUE)
+    d <- data.frame(oCPUE)
+    names(d) <- years
+    d <- melt(d) %>%
+      mutate(variable = as.character(variable), Scenario = scenario_names[j])
+    dobs <- rbind(dobs, d)
+  }
+
+  ggplot(dpred, aes(x = variable, y = value, colour = Scenario, fill = Scenario, group = Scenario)) +
+    stat_summary(fun.min = function(x) quantile(x, 0.05), fun.max = function(x) quantile(x, 0.95), geom = "ribbon", alpha = 0.25, colour = NA) +
+    stat_summary(fun = function(x) quantile(x, 0.5), geom = "line", lwd = 1) +
+    geom_point(data = dobs, aes(x = variable, y = value), colour = 'black') +
+    labs(x = year_label, y = "Aerial survey index", colour = "Scenario", fill = "Scenario") +
+    scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 }
+
+
+
+
+
+
+
+
+
+
+
+
+# @title Plot fits to aerial surveys
+# @description
+# Plots fits of the CCSBT model sbtmod22.tpl to the survey and index data: Aerial survey, troll survey, commercial spotter index, and CPUE index. Produces a four-panel plot with data and model fits to the data. 25 June 2009.
+#
+# plot_aerial_survey_fit <- function(data_objects, lab.cex = 1.1) {
+#   dobj <- data_objects[[1]]
+#   x <- dobj[[1]]
+#
+#   years <- x$Aerial.Surv[,1]
+#   cpue.obs <- x$Aerial.Surv[,2]
+#   cpue.pred <- x$Aerial.Surv[,3]
+#   #cpue.pred[cpue.obs < 0] <- NA     #missing years are indicated in the data by -999
+#   cpue.obs[cpue.obs < 0] <- NA     #missing years are indicated in the data by -999
+#
+#   ylim <- c(0,1.1*max(c(cpue.obs,cpue.pred),na.rm=T))
+#   plot(years, cpue.obs, type="p",cex=1.3,pch=19,col="black", ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
+#   par(new=T)
+#   plot(years, cpue.pred, type="l",lwd=2,col="blue",ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
+#
+#   #mtext(side=1,line=2.8,"Year",cex=lab.cex)
+#   mtext(side=2,line=3,"Aerial survey index",cex=lab.cex)
+# }
 #fit.aerial.survey(labrep.file="sbtmod22_lab.rep")
+
+
+
+# @title Plot fits to CPUE
+# @description
+# Plots fits of the CCSBT model sbtmod22.tpl to the survey and index data: Aerial survey, troll survey, commercial spotter index, and CPUE index. Produces a four-panel plot with data and model fits to the data. 25 June 2009. THIS IS JIM
+#
+# plot_CPUE_index_fit <- function(data_objects, lab.cex = 1.3) {
+#   dobj <- data_objects[[1]]
+#   x <- dobj[[1]]
+#
+#   years <- x$yrs.cpue[1]:x$yrs.cpue[2]
+#   cpue.obs <- x$cpue
+#   cpue.pred <- x$cpue.pred
+#
+#   ylim <- c(0,1.1*max(c(cpue.obs,cpue.pred)))
+#   plot(years, cpue.obs, type="p",cex=1.3,pch=19,col="black", ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
+#   par(new=T)
+#   plot(years, cpue.pred, type="l",lwd=2,col="blue",ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
+#
+#   #mtext(side=1,line=2.8,"Year",cex=lab.cex)
+#   mtext(side=2,line=3,"CPUE index",cex=lab.cex)
+# }
+
+
+
 
 
 #' @title Plot fits to troll surveys

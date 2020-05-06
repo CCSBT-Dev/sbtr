@@ -4,7 +4,22 @@
 \alias{plot_CPUE_fit_comparison}
 \title{Plot and compare fits to CPUE}
 \usage{
-plot_CPUE_fit_comparison(data_objects, lev_files, scenario_names)
+plot_CPUE_fit_comparison(
+  data_objects,
+  lev_files,
+  scenario_names,
+  year_label = NULL
+)
+}
+\arguments{
+\item{data_objects}{data objects}
+
+\item{lev_files}{the lev files}
+
+\item{scenario_names}{some names}
+}
+\value{
+a ggplot object
 }
 \description{
 Plot and compare fits to CPUE

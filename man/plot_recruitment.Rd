@@ -4,8 +4,12 @@
 \alias{plot_recruitment}
 \title{Plot of recruitment}
 \usage{
-plot_recruitment(data.objects, lev.file = "base.lev", scenario_name,
-  sample = TRUE)
+plot_recruitment(
+  data.objects,
+  lev.file = "base.lev",
+  scenario_name,
+  sample = TRUE
+)
 }
 \arguments{
 \item{data.objects}{a list of the _lab.rep files from all grid cells}

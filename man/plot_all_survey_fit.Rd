@@ -4,8 +4,11 @@
 \alias{plot_all_survey_fit}
 \title{Plot fits to all surveys}
 \usage{
-plot_all_survey_fit(data.object, lab.cex = 1.1,
-  case_label = "c1s1l1orig.5_h1m1M1O1C2a1")
+plot_all_survey_fit(
+  data.object,
+  lab.cex = 1.1,
+  case_label = "c1s1l1orig.5_h1m1M1O1C2a1"
+)
 }
 \description{
 Plots fits of the CCSBT model sbtmod22.tpl to the survey and index data: Aerial survey, troll survey, commercial spotter index, and CPUE index. Produces a four-panel plot with data and model fits to the data. 25 June 2009.

@@ -4,8 +4,10 @@
 \alias{plot_tagging_fits_subsequent}
 \title{Plots the fits to the tagging data for sbtmod22.tpl}
 \usage{
-plot_tagging_fits_subsequent(data.object,
-  case_label = "c1s1l1orig.5_h1m1M1O1C2a1")
+plot_tagging_fits_subsequent(
+  data.object,
+  case_label = "c1s1l1orig.5_h1m1M1O1C2a1"
+)
 }
 \description{
 outputs from a _lab.rep file, assuming that the naming convention in the file has sections of 

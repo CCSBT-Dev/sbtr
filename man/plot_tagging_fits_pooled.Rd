@@ -4,8 +4,12 @@
 \alias{plot_tagging_fits_pooled}
 \title{Plots the fits to the pooled tagging data.}
 \usage{
-plot_tagging_fits_pooled(data.object, ages = 2:8, years = 1992:1997,
-  case_label = "c1s1l1orig.5_h1m1M1O1C2a1")
+plot_tagging_fits_pooled(
+  data.object,
+  ages = 2:8,
+  years = 1992:1997,
+  case_label = "c1s1l1orig.5_h1m1M1O1C2a1"
+)
 }
 \description{
 Plots the fits to the pooled tagging data for sbtmod22.tpl outputs from a _lab.rep file.

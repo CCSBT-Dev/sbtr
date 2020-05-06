@@ -36,13 +36,13 @@ plot_recruitment <- function (data.objects, lev.file = "base.lev", scenario_name
     d <- data.frame(result$SSB)
     names(d) <- years
     d <- reshape2::melt(d) %>%
-      dplyr::mutate(Year = as.numeric(as.character(variable))) %>%
-      dplyr::mutate(Scenario = scenario_name[j])
+      mutate(Year = as.numeric(as.character(variable))) %>%
+      mutate(Scenario = scenario_name[j])
     dd <- rbind(dd, d)
   }
 
   ggplot(dd, aes(x = Year, y = value, colour = factor(Scenario), fill = factor(Scenario))) +
-    stat_summary(fun.ymin = function(x) quantile(x, 0.05), fun.ymax = function(x) quantile(x, 0.95), geom = "ribbon", alpha = 0.25, colour = NA) +
+    stat_summary(fun.min = function(x) quantile(x, 0.05), fun.max = function(x) quantile(x, 0.95), geom = "ribbon", alpha = 0.25, colour = NA) +
     stat_summary(fun.y = function(x) quantile(x, 0.5), geom = "line", lwd = 1) +
     scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
     labs(x = "Year", y = "Recruitment", colour = "Scenario", fill = "Scenario") +

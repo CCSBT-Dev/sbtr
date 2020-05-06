@@ -4,8 +4,7 @@
 \alias{plot_length_fits_LL}
 \title{Predicted length frequency for longline fishery 1 to the observed data.}
 \usage{
-plot_length_fits_LL(labrep.file = "sbtmod_lab.rep", case_label = "c1",
-  LL = 1)
+plot_length_fits_LL(labrep.file = "sbtmod_lab.rep", case_label = "c1", LL = 1)
 }
 \description{
 Fit of the model sbtmodxx.tpl to the data for southern bluefin tuna.
