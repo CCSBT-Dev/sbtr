@@ -1,12 +1,22 @@
 Package: sbtr
 Version: 1.62
 Date: 2019-07-03
-Author: Darcy Webber <darcy@quantifish.co.nz>
+Authors@R: 
+    person(given = "Darcy",
+           family = "Webber",
+           role = c("aut", "cre"),
+           email = "darcy.webber@quantifish.co.nz")
 Maintainer: Darcy Webber <darcy@quantifish.co.nz>
+Description: A package containing functions and plots to investigate the output of the Southern bluefin tuna (SBT) ADMB model.
+URL: https://github.com/quantifish/influ2
+BugReports: https://github.com/quantifish/influ2/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
 Depends:
     R (>= 2.10),
     dplyr,
-    ggplot2
+    ggplot2,
+    patchwork
 Imports:
     PBSmodelling,
     reshape2,
@@ -25,8 +35,6 @@ Suggests:
     testthat,
     usethis,
     viridis
-Description: A package containing functions and plots to investigate the output
-    of the Southern bluefin tuna (SBT) ADMB model.
-License: GPL-2
 LazyData: false
+VignetteBuilder: knitr
 RoxygenNote: 7.1.0

@@ -42,7 +42,7 @@ plot_SSB_compare <- function (data_objects, lev_files, scenario_names, sample = 
     }
 
     ggplot(dd, aes(x = Year, y = value, colour = factor(Scenario), fill = factor(Scenario))) +
-        stat_summary(fun.y = function(x) quantile(x, 0.05), fun.y = function(x) quantile(x, 0.95), geom = "ribbon", alpha = 0.25, colour = NA) +
+        stat_summary(fun.ymin = function(x) quantile(x, 0.05), fun.ymax = function(x) quantile(x, 0.95), geom = "ribbon", alpha = 0.25, colour = NA) +
         stat_summary(fun.y = function(x) quantile(x, 0.5), geom = "line", lwd = 1) +
         labs(x = "Year", y = "Total reproductive output", colour = "Scenario", fill = "Scenario") +
         theme_bw()
@@ -93,9 +93,9 @@ plot_SSB <- function(data.objects, lev.file = "base.lev", sample = TRUE)
     d <- reshape2::melt(d) %>%
         dplyr::mutate(Year = as.numeric(as.character(variable)))
 
-    ggplot2::ggplot(d, aes(x = Year, y = value/1000, group = Year)) +
-        #ggplot2::geom_boxplot(fill = 'purple') +
-        ggplot2::geom_violin(colour = 'purple', fill = 'purple', scale = "width", draw_quantiles = 0.5, alpha = 0.75) +
-        ggplot2::labs(x = 'Year', y = 'Total reproductive output') +
-        ggplot2::theme_bw()
+    ggplot(d, aes(x = Year, y = value/1000, group = Year)) +
+        #geom_boxplot(fill = 'purple') +
+        geom_violin(colour = 'purple', fill = 'purple', scale = "width", draw_quantiles = 0.5, alpha = 0.75) +
+        labs(x = 'Year', y = 'Total reproductive output') +
+        theme_bw()
 }

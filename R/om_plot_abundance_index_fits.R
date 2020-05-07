@@ -200,6 +200,77 @@ plot_aerial_survey_fit_comparison <- function(data_objects, lev_files, scenario_
 }
 
 
+#' Plot fits to troll surveys
+#'
+#' @param data_objects data objects
+#' @param lev_files the lev files
+#' @param scenario_names some names
+#' @return a ggplot object
+#' @importFrom reshape2 melt
+#' @importFrom stats quantile
+#' @import ggplot2
+#' @import dplyr
+#' @export
+#'
+plot_troll_survey_fit_comparison <- function(data_objects, lev_files, scenario_names, year_label = NULL) {
+  dpred <- NULL
+  dobs <- NULL
+  for (j in 1:length(data_objects)) {
+    dobj <- data_objects[[j]]
+    xx <- dobj[[1]]
+    years <- xx$Troll.Index[,1]
+    nyears <- length(years)
+    nobjects <- length(dobj)
+    npar <- nchar(xx$scenario_number)
+    scenario <- vector(length = nobjects)
+    oCPUE <- matrix(NA, nobjects, nyears)
+    pCPUE <- matrix(NA, nobjects, nyears)
+
+    # cpue.obs1 <- x$Troll.Index[,2]
+    # cpue.obs2 <- x$Troll.Index[,3]
+    # cpue.obs3 <- x$Troll.Index[,4]
+    # cpue.pred <- x$Troll.Index[,5]
+
+    for (i in 1:nobjects) {
+      xx <- dobj[[i]]
+      scenario[i] <- xx$scenario_number
+      oCPUE[i, ] <- xx$Troll.Index[,2]
+      pCPUE[i, ] <- xx$Troll.Index[,5]
+    }
+
+    lev <- read.table(file = lev_files[j], colClasses = "numeric", sep = " ")
+    nlevs <- nrow(lev)
+    lev.scens <- vector(length = nobjects)
+    for (i in 1:nlevs) {
+      lev.scens[i] <- as.numeric(paste(lev[i, 1:npar], sep = "", collapse = ""))
+    }
+    resamps <- match(lev.scens, scenario)
+    # result <- list(scenario = lev.scens, years = years, pCPUE = pCPUE[resamps, ], oCPUE = oCPUE[resamps, ])
+
+    # d <- data.frame(result$pCPUE)
+    d <- data.frame(pCPUE[resamps, ])
+    names(d) <- years
+    d <- melt(d) %>%
+      mutate(variable = as.character(variable), Scenario = scenario_names[j])
+    dpred <- rbind(dpred, d)
+
+    # d <- data.frame(result$oCPUE)
+    d <- data.frame(oCPUE)
+    names(d) <- years
+    d <- melt(d) %>%
+      mutate(variable = as.character(variable), Scenario = scenario_names[j])
+    dobs <- rbind(dobs, d)
+  }
+
+  ggplot(dpred, aes(x = variable, y = value, colour = Scenario, fill = Scenario, group = Scenario)) +
+    stat_summary(fun.min = function(x) quantile(x, 0.05), fun.max = function(x) quantile(x, 0.95), geom = "ribbon", alpha = 0.25, colour = NA) +
+    stat_summary(fun = function(x) quantile(x, 0.5), geom = "line", lwd = 1) +
+    geom_point(data = dobs, aes(x = variable, y = value), colour = 'black') +
+    labs(x = year_label, y = "Troll survey index", colour = "Scenario", fill = "Scenario") +
+    scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+}
 
 
 
@@ -207,7 +278,40 @@ plot_aerial_survey_fit_comparison <- function(data_objects, lev_files, scenario_
 
 
 
+#' @title Plot fits to troll surveys
+#' @description
+#' Plots fits of the CCSBT model sbtmod22.tpl to the survey and index data: Aerial survey, troll survey, commercial spotter index, and CPUE index. Produces a four-panel plot with data and model fits to the data. 25 June 2009.
+#' @export
+#'
+plot_troll_survey_fit <- function(data.object,lab.cex=1.1)
+{
+  x <- data.object
+  years <- x$Troll.Index[,1]
+  cpue.obs1 <- x$Troll.Index[,2]
+  cpue.obs2 <- x$Troll.Index[,3]
+  cpue.obs3 <- x$Troll.Index[,4]
+  cpue.pred <- x$Troll.Index[,5]
 
+  cpue.obs1[cpue.obs1 < 0] <- NA     #missing years are indicated in the data by -999
+  cpue.obs2[cpue.obs2 < 0] <- NA     #missing years are indicated in the data by -999
+  cpue.obs3[cpue.obs3 < 0] <- NA     #missing years are indicated in the data by -999
+  cpue.pred[is.na(cpue.obs1) & is.na(cpue.obs2) & is.na(cpue.obs3)] <- NA
+
+  ylim <- c(0,1.1*max(c(cpue.obs1,cpue.obs2,cpue.obs3,cpue.pred),na.rm=T))
+  par(xpd=T)  # so that the circles exactly on the x-axis are not obscured
+  plot(years, cpue.obs1, type="p",cex=1.3,pch=19,col="black", ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
+  par(new=T)
+  plot(years, cpue.obs2, type="p",cex=1.3,pch=19,col="grey50", ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
+  par(new=T)
+  plot(years, cpue.obs3, type="p",cex=1.3,pch=19,col="red", ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
+  par(new=T)
+  plot(years, cpue.pred, type="l",lwd=2,col="blue",ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
+  par(xpd=F)
+
+  mtext(side=1,line=2.8,"Year",cex=lab.cex)
+  mtext(side=2,line=3,"Troll index",cex=lab.cex)
+}
+#fit.troll.survey(labrep.file="sbtmod22_lab.rep",lab.cex=1.1)
 
 
 # @title Plot fits to aerial surveys
@@ -257,44 +361,6 @@ plot_aerial_survey_fit_comparison <- function(data_objects, lev_files, scenario_
 #   mtext(side=2,line=3,"CPUE index",cex=lab.cex)
 # }
 
-
-
-
-
-#' @title Plot fits to troll surveys
-#' @description
-#' Plots fits of the CCSBT model sbtmod22.tpl to the survey and index data: Aerial survey, troll survey, commercial spotter index, and CPUE index. Produces a four-panel plot with data and model fits to the data. 25 June 2009.
-#' @export
-#'
-plot_troll_survey_fit <- function(data.object,lab.cex=1.1)
-{
-  x <- data.object
-  years <- x$Troll.Index[,1]
-  cpue.obs1 <- x$Troll.Index[,2]
-  cpue.obs2 <- x$Troll.Index[,3]
-  cpue.obs3 <- x$Troll.Index[,4]
-  cpue.pred <- x$Troll.Index[,5]
-
-  cpue.obs1[cpue.obs1 < 0] <- NA     #missing years are indicated in the data by -999
-  cpue.obs2[cpue.obs2 < 0] <- NA     #missing years are indicated in the data by -999
-  cpue.obs3[cpue.obs3 < 0] <- NA     #missing years are indicated in the data by -999
-  cpue.pred[is.na(cpue.obs1) & is.na(cpue.obs2) & is.na(cpue.obs3)] <- NA
-
-  ylim <- c(0,1.1*max(c(cpue.obs1,cpue.obs2,cpue.obs3,cpue.pred),na.rm=T))
-  par(xpd=T)  # so that the circles exactly on the x-axis are not obscured
-  plot(years, cpue.obs1, type="p",cex=1.3,pch=19,col="black", ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
-  par(new=T)
-  plot(years, cpue.obs2, type="p",cex=1.3,pch=19,col="grey50", ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
-  par(new=T)
-  plot(years, cpue.obs3, type="p",cex=1.3,pch=19,col="red", ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
-  par(new=T)
-  plot(years, cpue.pred, type="l",lwd=2,col="blue",ylim=ylim, las=1,yaxs="i",xlab="",ylab="")
-  par(xpd=F)
-
-  mtext(side=1,line=2.8,"Year",cex=lab.cex)
-  mtext(side=2,line=3,"Troll index",cex=lab.cex)
-}
-#fit.troll.survey(labrep.file="sbtmod22_lab.rep",lab.cex=1.1)
 
 
 #' @title Plot fits to all surveys

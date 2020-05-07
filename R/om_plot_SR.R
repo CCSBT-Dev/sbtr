@@ -2,13 +2,13 @@
 #'
 #' @param data.objects a list of the _lab.rep files from all grid cells
 #' @author Ana Parma, Darcy Webber
+#' @import patchwork
 #' @export
-#' 
-plot_recruitment_and_ssb <- function(data.objects)
-{
+#'
+plot_recruitment_and_ssb <- function(data.objects) {
    nobjects <- length(data.objects)
    recdevs <- NULL
-  
+
    steep <- NULL
    M1 <- NULL
    M10 <- NULL
@@ -19,21 +19,20 @@ plot_recruitment_and_ssb <- function(data.objects)
    sigmaR <- NULL
    xx <- data.objects[[1]]
    n <- length(xx$Recruitment)
-   
-   for (i in 1:nobjects)
-   {
+
+   for (i in 1:nobjects) {
       xx <- data.objects[[i]]
       recdevs <- rbind(recdevs, xx$Rdev)
       steep <- rbind(steep, xx$steep)
       M1 <- rbind(M1, xx$M[2])
       M10 <- rbind(M10, xx$M[11])
-      R <- rbind(R, xx$Recruitment[-n])      
-      SSB <- rbind(SSB, xx$Sbio[-n]/xx$Sbio[1])      
+      R <- rbind(R, xx$Recruitment[-n])
+      SSB <- rbind(SSB, xx$Sbio[-n]/xx$Sbio[1])
       alpha <-rbind(alpha, xx$alpha[2])
       beta <- rbind(beta, xx$beta[2]/xx$Sbio[1])
       sigmaR <- rbind(sigmaR, xx$sigma.r)
    }
- 
+
    years <- xx$years[1]:xx$years[2]
 
    steep <- data.frame(steep)
@@ -48,7 +47,7 @@ plot_recruitment_and_ssb <- function(data.objects)
    M1$grp <- 1:nrow(M1)
    M10 <- data.frame(M10)
    M10$grp <- 1:nrow(M10)
-   
+
    Rec <- data.frame(R)
    names(Rec) <- years
    Rec$grp <- 1:nrow(Rec)
@@ -60,7 +59,7 @@ plot_recruitment_and_ssb <- function(data.objects)
        dplyr::full_join(beta) %>%
        dplyr::full_join(sigmaR) %>%
        dplyr::full_join(steep)
-   
+
    TRO <- data.frame(SSB)
    names(TRO) <- years
    TRO$grp <- 1:nrow(TRO)
@@ -80,7 +79,7 @@ plot_recruitment_and_ssb <- function(data.objects)
        theme_bw() +
        labs(colour = "M10") +
        scale_x_continuous(breaks = seq(0, 1e6, 10), minor_breaks = seq(0, 1e6, 1))
-   grid.arrange(p1, p2, ncol = 1)
+   p1 + p2
 }
 
 
@@ -89,12 +88,12 @@ plot_recruitment_and_ssb <- function(data.objects)
 #' @param data.objects a list of the _lab.rep files from all grid cells
 #' @author Ana Parma, Darcy Webber
 #' @export
-#' 
+#'
 plot_SR <- function(data.objects)
 {
    nobjects <- length(data.objects)
    recdevs <- NULL
-  
+
    steep <- NULL
    M1 <- NULL
    M10 <- NULL
@@ -105,7 +104,7 @@ plot_SR <- function(data.objects)
    sigmaR <- NULL
    xx <- data.objects[[1]]
    n <- length(xx$Recruitment)
-   
+
    for (i in 1:nobjects)
    {
       xx <- data.objects[[i]]
@@ -113,13 +112,13 @@ plot_SR <- function(data.objects)
       steep <- rbind(steep, xx$steep)
       M1 <- rbind(M1, xx$M[2])
       M10 <- rbind(M10, xx$M[11])
-      R <- rbind(R, xx$Recruitment[-n])      
-      SSB <- rbind(SSB, xx$Sbio[-n]/xx$Sbio[1])      
+      R <- rbind(R, xx$Recruitment[-n])
+      SSB <- rbind(SSB, xx$Sbio[-n]/xx$Sbio[1])
       alpha <-rbind(alpha, xx$alpha[2])
       beta <- rbind(beta, xx$beta[2]/xx$Sbio[1])
       sigmaR <- rbind(sigmaR, xx$sigma.r)
    }
- 
+
    years <- xx$years[1]:xx$years[2]
 
    steep <- data.frame(steep)
@@ -134,7 +133,7 @@ plot_SR <- function(data.objects)
    M1$grp <- 1:nrow(M1)
    M10 <- data.frame(M10)
    M10$grp <- 1:nrow(M10)
-   
+
    Rec <- data.frame(R)
    names(Rec) <- years
    Rec$grp <- 1:nrow(Rec)
@@ -146,7 +145,7 @@ plot_SR <- function(data.objects)
        dplyr::full_join(beta) %>%
        dplyr::full_join(sigmaR) %>%
        dplyr::full_join(steep)
-   
+
    TRO <- data.frame(SSB)
    names(TRO) <- years
    TRO$grp <- 1:nrow(TRO)
@@ -158,7 +157,7 @@ plot_SR <- function(data.objects)
    d2 <- expand.grid(grp = unique(d$grp), Year = unique(d$Year), ss = seq(0, 1, 0.01)) %>%
        dplyr::full_join(d) %>%
        dplyr::mutate(rr = aa * ss/(beta + ss))
-   
+
    ggplot(d, aes(TRO, Recruitment, group = grp)) +
        geom_path(alpha = 0.3) +
        geom_path(data = d2, aes(ss, rr, colour = factor(steep)), alpha = 0.3) +
