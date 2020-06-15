@@ -58,7 +58,7 @@ plot_CPUE_fit_comparison <- function(data_objects, lev_files, scenario_names, ye
   ggplot(dpred, aes(x = variable, y = value, colour = Scenario, fill = Scenario, group = Scenario)) +
     stat_summary(fun.min = function(x) quantile(x, 0.05), fun.max = function(x) quantile(x, 0.95), geom = "ribbon", alpha = 0.25, colour = NA) +
     stat_summary(fun = function(x) quantile(x, 0.5), geom = "line", lwd = 1) +
-    geom_point(data = dobs, aes(x = variable, y = value), colour = 'black') +
+    geom_point(data = dobs, aes(x = variable, y = value, colour = Scenario)) +
     labs(x = year_label, y = "CPUE index", colour = "Scenario", fill = "Scenario") +
     scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
     theme_bw() +

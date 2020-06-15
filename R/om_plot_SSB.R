@@ -55,8 +55,7 @@ plot_SSB_compare <- function (data_objects, lev_files, scenario_names, sample = 
 #' @param lev.file has the scenarios of 2000 sampled grid cells
 #' @export
 #'
-plot_SSB <- function(data.objects, lev.file = "base.lev", sample = TRUE)
-{
+plot_SSB <- function(data.objects, lev.file = "base.lev", sample = TRUE) {
     xx <- data.objects[[1]]
     years <- (xx$years[1] - 1):xx$years[2]
     nyears <- length(years)
