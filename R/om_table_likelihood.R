@@ -27,7 +27,7 @@ table_likelihood <- function(data.objects) {
       rownames(likelihoods)[i] <- names(data.objects)[i]
    }
 
-   ncols <- ncol(result)
+   ncols <- ncol(likelihoods)
    result <- cbind(likelihoods, sumNLL, penalties, sumPEN, objF, steep, M1, M10)
    nresults <- ncol(result)
    colnames(result) <- c(colnames(likelihoods), "sumNLL", colnames(penalties), "sumPEN", "objF", "steepness", "M1", "M10")
