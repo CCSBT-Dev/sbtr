@@ -4,12 +4,12 @@
 # R Hillary, CSIRO 2017 ##############################
 ######################################################
 
-library(PBSmodelling)                  
+library(PBSmodelling)
 
 # get the best fitting grid cell
 
 grdnm <- 'base2016sqrt_2016'
-load(paste("../filestore",paste(grdnm,"RData",sep="."),sep="/"))
+load(paste("../filestore", paste(grdnm, "RData", sep="."),sep="/"))
 
 lg <- length(data)
 loglmat <- matrix(nrow=lg,ncol=2)
@@ -59,12 +59,12 @@ lines(as.yrs,as.uq,lty=2,lwd=2,col='blue')
 
 # pooled
 
-source("Tagging fits pooled.r") 
+source("Tagging fits pooled.r")
 tagging.fits.pooled(rep,ages=2:8,years=1992:1997,case_label=grdnm)
 
 # disaggregated
 
-source("Tagging fits combine tagger groups.r") 
+source("Tagging fits combine tagger groups.r")
 tagging.fits(rep,case_label=grdnm)
 
 ########
@@ -97,7 +97,7 @@ COMs.obs <- tapply(ck.om.df$nC,list(ck.om.df$c,ck.om.df$y),sum)
 for(cc in cohorts[1]:cohorts[length(cohorts)]) {
     for(yy in aduyr[1]:aduyr[length(aduyr)]) {
 
-      cat("Cohort: ",cc," Year: ",yy,"\n") 
+      cat("Cohort: ",cc," Year: ",yy,"\n")
 
       xx.df <- subset(ck.om.df,c == cc & y == yy)
 
@@ -110,7 +110,7 @@ for(cc in cohorts[1]:cohorts[length(cohorts)]) {
         #######################################################
         psum <- sumofbinomPOP(xx.df,S,phi)
         mutmp <- sum(psum*(0:(length(psum)-1)))
-        muPOP[as.character(cc),as.character(yy)] <- mutmp 
+        muPOP[as.character(cc),as.character(yy)] <- mutmp
         sdPOP[as.character(cc),as.character(yy)] <- sqrt(sum(psum*((0:(length(psum)-1))-mutmp)^2))
       }
     }
@@ -124,10 +124,10 @@ for(i in 1:dim(ck.summ.df)[1]) {
   yy <- ck.summ.df$year[i]
   if(!is.na(COMs.obs[as.character(cc),as.character(yy)])) {
     ck.summ.df$obs[i] <- POPs.obs[as.character(cc),as.character(yy)]
-    ck.summ.df$med[i] <- muPOP[as.character(cc),as.character(yy)] 
-    ck.summ.df$lq[i] <- ck.summ.df$med[i]-1.96*sdPOP[as.character(cc),as.character(yy)] 
+    ck.summ.df$med[i] <- muPOP[as.character(cc),as.character(yy)]
+    ck.summ.df$lq[i] <- ck.summ.df$med[i]-1.96*sdPOP[as.character(cc),as.character(yy)]
     ck.summ.df$lq[i] <- max(0,ck.summ.df$lq[i])
-    ck.summ.df$uq[i] <- ck.summ.df$med[i]+1.96*sdPOP[as.character(cc),as.character(yy)] 
+    ck.summ.df$uq[i] <- ck.summ.df$med[i]+1.96*sdPOP[as.character(cc),as.character(yy)]
   }
 }
 
@@ -136,7 +136,7 @@ for(i in 1:dim(ck.summ.df)[1]) {
 library(lattice)
 library(ggplot2)
 
-xyplot(obs+med+lq+uq~cohort|as.factor(year),ck.summ.df,type=c('p','l','l','l'),lty=c(0,1,2,2),col=c('magenta','blue','blue','blue'),pch=c(19,NA,NA,NA),cex=0.75,lwd=1.5,xlab='cohort',ylab='POPs')  
+xyplot(obs+med+lq+uq~cohort|as.factor(year),ck.summ.df,type=c('p','l','l','l'),lty=c(0,1,2,2),col=c('magenta','blue','blue','blue'),pch=c(19,NA,NA,NA),cex=0.75,lwd=1.5,xlab='cohort',ylab='POPs')
 
 # ggplot() version
 
@@ -162,7 +162,7 @@ for(cc in cohorts[1]:cohorts[length(cohorts)]) {
         #######################################################
         psum <- sumofbinomPOP(xx.df,S,phi)
         mutmp <- sum(psum*(0:(length(psum)-1)))
-        muPOPc[as.character(cc)] <- mutmp 
+        muPOPc[as.character(cc)] <- mutmp
         sdPOPc[as.character(cc)] <- sqrt(sum(psum*((0:(length(psum)-1))-mutmp)^2))
    }
 
@@ -174,19 +174,19 @@ for(i in 1:dim(ck.summc.df)[1]) {
   cc <- ck.summc.df$cohort[i]
   if(!is.na(COMs.obsc[as.character(cc)])) {
     ck.summc.df$obs[i] <- POPs.obsc[as.character(cc)]
-    ck.summc.df$med[i] <- muPOPc[as.character(cc)] 
-    ck.summc.df$lq[i] <- ck.summc.df$med[i]-1.96*sdPOPc[as.character(cc)] 
+    ck.summc.df$med[i] <- muPOPc[as.character(cc)]
+    ck.summc.df$lq[i] <- ck.summc.df$med[i]-1.96*sdPOPc[as.character(cc)]
     ck.summc.df$lq[i] <- max(0,ck.summc.df$lq[i])
-    ck.summc.df$uq[i] <- ck.summc.df$med[i]+1.96*sdPOPc[as.character(cc)] 
+    ck.summc.df$uq[i] <- ck.summc.df$med[i]+1.96*sdPOPc[as.character(cc)]
   }
 }
 
-xyplot(obs+med+lq+uq~cohort,ck.summc.df,type=c('p','l','l','l'),lty=c(0,1,2,2),col=c('magenta','blue','blue','blue'),pch=c(19,NA,NA,NA),cex=0.75,lwd=1.5,xlab='cohort',ylab='POPs') 
+xyplot(obs+med+lq+uq~cohort,ck.summc.df,type=c('p','l','l','l'),lty=c(0,1,2,2),col=c('magenta','blue','blue','blue'),pch=c(19,NA,NA,NA),cex=0.75,lwd=1.5,xlab='cohort',ylab='POPs')
 
 # now predicted and observed POPs for adult ages
 
 muPOPa <- sdPOPa <- vector(length = length(adua))
-names(muPOPa) <- names(sdPOPa) <- adua 
+names(muPOPa) <- names(sdPOPa) <- adua
 POPs.obsa <- tapply(ck.om.df$nP,list(ck.om.df$a),sum)
 COMs.obsa <- tapply(ck.om.df$nC,list(ck.om.df$a),sum)
 
@@ -203,7 +203,7 @@ for(aa in adua[1]:adua[length(adua)]) {
         #######################################################
         psum <- sumofbinomPOP(xx.df,S,phi)
         mutmp <- sum(psum*(0:(length(psum)-1)))
-        muPOPa[as.character(aa)] <- mutmp 
+        muPOPa[as.character(aa)] <- mutmp
         sdPOPa[as.character(aa)] <- sqrt(sum(psum*((0:(length(psum)-1))-mutmp)^2))
    }
 
@@ -215,14 +215,14 @@ for(i in 1:dim(ck.summa.df)[1]) {
   aa <- ck.summa.df$age[i]
   if(!is.na(COMs.obsa[as.character(aa)])) {
     ck.summa.df$obs[i] <- POPs.obsa[as.character(aa)]
-    ck.summa.df$med[i] <- muPOPa[as.character(aa)] 
-    ck.summa.df$lq[i] <- ck.summa.df$med[i]-1.96*sdPOPa[as.character(aa)] 
+    ck.summa.df$med[i] <- muPOPa[as.character(aa)]
+    ck.summa.df$lq[i] <- ck.summa.df$med[i]-1.96*sdPOPa[as.character(aa)]
     ck.summa.df$lq[i] <- max(0,ck.summa.df$lq[i])
-    ck.summa.df$uq[i] <- ck.summa.df$med[i]+1.96*sdPOPa[as.character(aa)] 
+    ck.summa.df$uq[i] <- ck.summa.df$med[i]+1.96*sdPOPa[as.character(aa)]
   }
 }
 
-xyplot(obs+med+lq+uq~age,subset(ck.summa.df,age<=30),type=c('p','l','l','l'),lty=c(0,1,2,2),col=c('magenta','blue','blue','blue'),pch=c(19,NA,NA,NA),cex=0.75,lwd=1.5,xlab='adult capture age',ylab='POPs') 
+xyplot(obs+med+lq+uq~age,subset(ck.summa.df,age<=30),type=c('p','l','l','l'),lty=c(0,1,2,2),col=c('magenta','blue','blue','blue'),pch=c(19,NA,NA,NA),cex=0.75,lwd=1.5,xlab='adult capture age',ylab='POPs')
 
 
 ########

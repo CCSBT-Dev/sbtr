@@ -1,7 +1,7 @@
 ###############################################
 #Plots the fits to the tagging data for sbtmod22.tpl
-#outputs from a _lab.rep file, assuming that the naming convention in the file has sections of 
-#outputs separated by $name comments so that it can be easily parsed by readList() function of Jon Schnute 
+#outputs from a _lab.rep file, assuming that the naming convention in the file has sections of
+#outputs separated by $name comments so that it can be easily parsed by readList() function of Jon Schnute
 ####RUN this by typing source("Tagging fits subsequent.r"), expects subdirectory \figs
 ###############################################
 tagging.fits <- function(data.object,case_label="c1s1l1orig.5_h1m1M1O1C2a1") {
@@ -28,12 +28,11 @@ tagging.fits <- function(data.object,case_label="c1s1l1orig.5_h1m1M1O1C2a1") {
       if (total.recaps >= 5 & total.recaps <20) { p.color <- heat.colors(7)[5] }
       if (total.recaps >= 20 & total.recaps <100) { p.color <- heat.colors(7)[3] }
       if (total.recaps >= 100) { p.color <- heat.colors(7)[1] }
-      x <- barplot(tagobs[i,],space=0.3,ylim=ylim,las=1,names.arg=names.arg, cex.names=0.5, xaxs="i",yaxs="i",col=p.color,
-                        axes=F,ylab="",xlab="")
+      x <- barplot(tagobs[i,],space=0.3,ylim=ylim,las=1,names.arg=names.arg, cex.names=0.5, xaxs="i",yaxs="i",col=p.color,axes=F,ylab="",xlab="")
       if (i > (mfrow[1]-1)*mfrow[2]) {
         axis(side=1,at=x[seq(1,7,2)],line=-0.8,c(1:7)[seq(1,7,2)],lwd=0,lwd.ticks=0,cex.axis=0.8)   #suppress axis lines and ticks, just put in labels
         axis(side=1,at=x[seq(2,6,2)],line=-0.8,c(1:7)[seq(2,6,2)],lwd=0,lwd.ticks=0,cex.axis=0.8)   #suppress axis lines and ticks, just put in labels
-      }      
+      }
       par(new=T)
       par(xpd=NA)
       if (figure.row >= 3) {
@@ -62,7 +61,7 @@ tagging.fits <- function(data.object,case_label="c1s1l1orig.5_h1m1M1O1C2a1") {
          year <- year+1
       }
    }
-   mtext(side=1,outer=T,line=2,paste("Recapture ages ","(", case_label,")", sep=""))
+   mtext(side=1,outer=T,line=2,paste("Recapture ages","(", case_label,")"))
    mtext(side=2,outer=T,line=1,"Number of recaptures")
    mtext(side=4,outer=T,line=3,"Cohort year")
 }
