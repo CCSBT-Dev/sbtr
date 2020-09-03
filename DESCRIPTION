@@ -1,4 +1,5 @@
 Package: sbtr
+Title: sbtr
 Version: 1.62
 Date: 2019-07-03
 Authors@R: 
@@ -37,4 +38,4 @@ Suggests:
     viridis
 LazyData: false
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

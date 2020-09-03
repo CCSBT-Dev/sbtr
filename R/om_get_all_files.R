@@ -10,7 +10,8 @@
 #' @export
 #'
 get_all_files <- function(directory) {
-    files <- dir(directory, pattern = "lab.rep")
+    files <- dir(path = directory, pattern = "lab.rep")
+    # files <- list.files(path = directory, pattern = "lab.rep")
     nn <- length(files)
     result <- list()
     for (i in 1:nn) {
