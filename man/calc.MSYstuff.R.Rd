@@ -13,15 +13,12 @@ calc.MSYstuff.R(data.objects, lev.file = "base.lev", sample = T)
 something done on y
 }
 \description{
-calculates U/Umsy , B/Bmsy B10/B10msy and B/B0 over time with confidence intervals. 
+calculates U/Umsy , B/Bmsy B10/B10msy and B/B0 over time with confidence intervals.
 Umsy and Bmsy were calculated by msycalc.tpl using anual weights, selectivities and allocation
 data.objects is the collection of lab.rep files produced by get.all.data.R()
 NB: there may be false convergences in msycalc which are replaved by NA.
 to check use:  apply(MSY.stats$output$MSY,2,countNAs)   (countNAs is length(x[is.na(x)])
 Ana Parma, 2014  (extracted and modified from plot.MSYstuff.R)
-}
-\examples{
-MSY.stats <- calc.MSYstuff.R(base2013)
 }
 \author{
 Ana Parma
